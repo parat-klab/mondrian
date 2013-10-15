@@ -326,6 +326,14 @@ public class RolapCubeHierarchy extends RolapHierarchy {
         }
     }
 
+    private static MemberReader createMemberSource(RolapCubeHierarchy hierarchy) {
+        // FIXME MONGO Make this pluggable.
+//        if (hierarchy.getCube().getSchemaReader().getDataSource() instanceof MongoDBDataSource) {
+//            return new MongoDBMemberSource(hierarchy);
+//        } else {
+            return new SqlMemberSource(hierarchy);
+//        }
+    }
 
     boolean tableExists(String tableName) {
         return rolapHierarchy.tableExists(tableName);
@@ -524,7 +532,7 @@ public class RolapCubeHierarchy extends RolapHierarchy {
         /**
          * cubeSource is passed as our member builder
          */
-        protected final RolapCubeSqlMemberSource cubeSource;
+        protected final RolapCubeMemberSource cubeSource;
 
         /**
          * this cache caches RolapCubeMembers that are light wrappers around
@@ -538,16 +546,26 @@ public class RolapCubeHierarchy extends RolapHierarchy {
             MondrianProperties.instance().EnableRolapCubeMemberCache.get();
 
         public CacheRolapCubeHierarchyMemberReader() {
-            super(new SqlMemberSource(RolapCubeHierarchy.this));
+            super(createMemberSource(RolapCubeHierarchy.this));
             rolapCubeCacheHelper =
                 new MemberCacheHelper(RolapCubeHierarchy.this);
 
-            cubeSource =
-                new RolapCubeSqlMemberSource(
-                    this,
-                    RolapCubeHierarchy.this,
-                    rolapCubeCacheHelper,
-                    cacheHelper);
+            // FIXME MONGO Make this pluggable.
+//            if (RolapCubeHierarchy.this.getRolapSchema().getSchemaReader().getDataSource() instanceof MongoDBDataSource) {
+//                cubeSource =
+//                    new RolapCubeMongoDBMemberSource(
+//                        this,
+//                        RolapCubeHierarchy.this,
+//                        rolapCubeCacheHelper,
+//                        cacheHelper);
+//            } else {
+                cubeSource =
+                    new RolapCubeSqlMemberSource(
+                        this,
+                        RolapCubeHierarchy.this,
+                        rolapCubeCacheHelper,
+                        cacheHelper);
+//            }
 
             cubeSource.setCache(getMemberCache());
         }
@@ -1081,7 +1099,14 @@ public class RolapCubeHierarchy extends RolapHierarchy {
         }
     }
 
-    public static class RolapCubeSqlMemberSource extends SqlMemberSource {
+    public interface RolapCubeMemberSource extends MemberSource, MemberBuilder {
+        // Nothing to add.
+    }
+
+    public static class RolapCubeSqlMemberSource
+        extends SqlMemberSource
+        implements RolapCubeMemberSource
+    {
 
         private final RolapCubeHierarchyMemberReader memberReader;
         private final MemberCacheHelper memberSourceCacheHelper;

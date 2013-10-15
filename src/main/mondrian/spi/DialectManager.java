@@ -150,6 +150,17 @@ public abstract class DialectManager {
             // ignore
         }
 
+        // if <init>(Connection) does not exist, go for the default constructor.
+        try {
+            final Constructor<? extends Dialect> constructor =
+                dialectClass.getConstructor();
+            if (Modifier.isPublic(constructor.getModifiers())) {
+                return new ConstructorDialectFactory(constructor);
+            }
+        } catch (NoSuchMethodException e2) {
+            // ignore
+        }
+
         // No suitable constructor or factory.
         return null;
     }
@@ -364,6 +375,27 @@ public abstract class DialectManager {
             DataSource dataSource,
             Connection connection)
         {
+            if (constructor.getParameterTypes().length == 0) {
+                try {
+                    return constructor.newInstance();
+                } catch (InstantiationException e) {
+                    throw Util.newError(
+                        e,
+                        "Error while instantiating dialect of class "
+                        + constructor.getClass());
+                } catch (IllegalAccessException e) {
+                    throw Util.newError(
+                        e,
+                        "Error while instantiating dialect of class "
+                        + constructor.getClass());
+                } catch (InvocationTargetException e) {
+                    throw Util.newError(
+                        e,
+                        "Error while instantiating dialect of class "
+                        + constructor.getClass());
+                }
+            }
+
             // If connection is null, create a temporary connection
             // and recursively call this method.
             if (connection == null) {

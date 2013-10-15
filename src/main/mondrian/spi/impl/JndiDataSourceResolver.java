@@ -29,7 +29,12 @@ public class JndiDataSourceResolver implements DataSourceResolver {
     }
 
     public DataSource lookup(String dataSourceName) throws NamingException {
-        return (DataSource) new InitialContext().lookup(dataSourceName);
+        // FIXME MONGO Make this pluggable
+//        if (dataSourceName.startsWith("mongodb")) {
+//            return new MongoDBDataSource(dataSourceName);
+//        } else {
+            return (DataSource) new InitialContext().lookup(dataSourceName);
+//        }
     }
 }
 

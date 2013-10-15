@@ -31,7 +31,7 @@ public class RolapCubeLevel extends RolapLevel {
     private RolapCubeLevel closedPeerCubeLevel;
     protected LevelReader levelReader;
     private final RolapCubeHierarchy cubeHierarchy;
-    private final RolapCubeDimension cubeDimension;
+    public final RolapCubeDimension cubeDimension;
     private final RolapCube cube;
     private final RolapCubeLevel parentCubeLevel;
     private RolapCubeLevel childCubeLevel;

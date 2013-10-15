@@ -39,7 +39,7 @@ import javax.sql.DataSource;
  * @author jhyde
  * @since 21 December, 2001
  */
-class SqlMemberSource
+public class SqlMemberSource
     implements MemberReader, SqlTupleReader.MemberBuilder
 {
     private final SqlConstraintFactory sqlConstraintFactory =
@@ -51,7 +51,7 @@ class SqlMemberSource
     private boolean assignOrderKeys;
     private Map<Object, Object> valuePool;
 
-    SqlMemberSource(RolapHierarchy hierarchy) {
+    public SqlMemberSource(RolapHierarchy hierarchy) {
         this.hierarchy = hierarchy;
         this.dataSource =
             hierarchy.getRolapSchema().getInternalConnection().getDataSource();
@@ -986,11 +986,12 @@ RME is this right
         Object value,
         Object captionValue,
         boolean parentChild,
-        SqlStatement stmt,
+        DBStatement dbstmt,
         Object key,
         int columnOffset)
         throws SQLException
     {
+        final SqlStatement stmt = (SqlStatement) dbstmt;
         final RolapLevel rolapChildLevel;
         if (childLevel instanceof RolapCubeLevel) {
             rolapChildLevel = ((RolapCubeLevel) childLevel).getRolapLevel();

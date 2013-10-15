@@ -1568,6 +1568,13 @@ public class RolapStar {
                 // Trust me, return null and a junit test fails.
                 column = c;
             } else {
+                // FIXME MONGO Make this pluggable. We want some pluggable factory
+                // to make the columns for us.
+                /*
+                 * if (mongo) {
+                 *   column = new RolapStar.Column(name, table, expression, datatype)
+                 * }
+                 */
                 // Make a new column and add it
                 column = new RolapStar.Column(
                     name,
@@ -1882,7 +1889,7 @@ public class RolapStar {
         public boolean containsColumn(String columnName) {
             if (relation instanceof MondrianDef.Relation) {
                 return star.containsColumn(
-                    ((MondrianDef.Relation) relation).getAlias(),
+                    relation.getAlias(),
                     columnName);
             } else {
                 // todo: Deal with join.

@@ -1212,6 +1212,8 @@ System.out.println("RolapSchema.createMemberReader: CONTAINS NAME");
         final RolapHierarchy hierarchy,
         final String memberReaderClass)
     {
+        // FIXME MONGO Add the MongoDbMemberSource in the schema so the
+        // code goes through here.
         if (memberReaderClass != null) {
             Exception e2;
             try {

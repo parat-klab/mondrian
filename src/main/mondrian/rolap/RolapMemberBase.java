@@ -96,7 +96,7 @@ public class RolapMemberBase
      * @param name Name of this member
      * @param memberType Type of member
      */
-    protected RolapMemberBase(
+    public RolapMemberBase(
         RolapMember parentMember,
         RolapLevel level,
         Object key,
@@ -481,13 +481,13 @@ public class RolapMemberBase
         return orderKey;
     }
 
-    void setOrdinal(int ordinal) {
+    public void setOrdinal(int ordinal) {
         if (this.ordinal == -1) {
             this.ordinal = ordinal;
         }
     }
 
-    void setOrderKey(Comparable orderKey) {
+    public void setOrderKey(Comparable orderKey) {
         this.orderKey = orderKey;
     }
 
@@ -1012,7 +1012,7 @@ public class RolapMemberBase
          */
         @SuppressWarnings({"unchecked"})
         private PropertyValueMapFactoryFactory() {
-            super((Class) PropertyValueMapFactory.class);
+            super(PropertyValueMapFactory.class);
         }
 
         protected StringProperty getStringProperty() {

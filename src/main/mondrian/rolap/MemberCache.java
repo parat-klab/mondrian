@@ -25,7 +25,7 @@ import java.util.List;
  * @author jhyde
  * @since 22 December, 2001
  */
-interface MemberCache {
+public interface MemberCache {
     /**
      * Creates a key with which to {@link #getMember(Object)} or
      * {@link #putMember(Object, RolapMember)} the

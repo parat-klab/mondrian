@@ -22,7 +22,7 @@ import org.apache.log4j.Logger;
  *
  * @author jhyde
  */
-class RolapProperty extends Property {
+public class RolapProperty extends Property {
 
     private static final Logger LOGGER = Logger.getLogger(RolapProperty.class);
 
@@ -34,7 +34,7 @@ class RolapProperty extends Property {
     private final boolean dependsOnLevelValue;
 
     /** The column or expression which yields the property's value. */
-    private final MondrianDef.Expression exp;
+    public final MondrianDef.Expression exp;
 
 
     /**

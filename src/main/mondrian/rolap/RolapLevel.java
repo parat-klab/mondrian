@@ -36,7 +36,7 @@ public class RolapLevel extends LevelBase {
     /**
      * The column or expression which yields the level's key.
      */
-    protected MondrianDef.Expression keyExp;
+    public MondrianDef.Expression keyExp;
 
     /**
      * The column or expression which yields the level's ordinal.

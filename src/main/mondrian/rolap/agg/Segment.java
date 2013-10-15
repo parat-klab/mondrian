@@ -92,7 +92,7 @@ public class Segment {
      */
     public final StarColumnPredicate[] predicates;
 
-    protected final RolapStar star;
+    public final RolapStar star;
     protected final BitKey constrainedColumnsBitKey;
 
     /**

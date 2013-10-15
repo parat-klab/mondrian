@@ -70,7 +70,7 @@ public interface TupleReader {
             Object value,
             Object captionValue,
             boolean parentChild,
-            SqlStatement stmt,
+            DBStatement stmt,
             Object key,
             int column)
             throws SQLException;

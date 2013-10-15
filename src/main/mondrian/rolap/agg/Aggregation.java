@@ -139,7 +139,13 @@ public class Aggregation {
         if (groupingSetsCollector.useGroupingSets()) {
             groupingSetsCollector.add(groupingSet);
         } else {
-            final SegmentLoader segmentLoader = new SegmentLoader(cacheMgr);
+            final SegmentLoader segmentLoader;
+            // FIXME MONGO Make this pluggable
+//            if (star.getDataSource() instanceof MongoDBDataSource) {
+//                segmentLoader = new MongoSegmentLoader(cacheMgr);
+//            } else {
+                segmentLoader = new SegmentLoader(cacheMgr);
+//            }
             segmentLoader.load(
                 cellRequestCount,
                 new ArrayList<GroupingSet>(
@@ -239,7 +245,7 @@ public class Aggregation {
             }
 
             // more than one - check for children of same parent
-            double constraintLength = (double) valueCount;
+            double constraintLength = valueCount;
             Member parent = null;
             Level level = null;
             for (int j = 0; j < valueCount; j++) {
